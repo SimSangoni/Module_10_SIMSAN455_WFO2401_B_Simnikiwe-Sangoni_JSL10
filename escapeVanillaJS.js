@@ -15,18 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("room2Result").textContent = `The code to unlock the door is: ${Array.from(commonConcepts).join(', ')}`;
     });
 
-    // 🪲 Bug: Asynchronous function ?
-    document.getElementById("solveRoom3").addEventListener("click", () => {
-        fetch('directions.json') 
-            .then(response => response.json())
-            .then(directions => {
-                navigateLabyrinth(directions)
-                    .then(message => {
-                        // 🪲 Bug: Incorrect method
-                        document.getElementById("room3Result").textContent = message;
-                    });
-            });
-    });
+    document.getElementById("solveRoom3").addEventListener("click", async () => {
+        const response = await fetch('directions.json');
+        const directions = await response.json();
+        const message = await navigateLabyrinth(directions);
+        document.getElementById("room3Result").textContent = message;
+        });
 });
 
 function findMostRecentBook(books) {
